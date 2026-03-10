@@ -53,7 +53,7 @@ def clean_data(df):
 # -----------------------------
 def build_features(df):
 
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df["timestamp"] = pd.to_datetime(df["timestamp"], format="mixed")
 
     # Time features
     df["hour"] = df["timestamp"].dt.hour
