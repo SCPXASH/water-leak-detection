@@ -247,7 +247,8 @@ The system integrates the following components:
 
   ── STEP 2 — Start the MQTT Broker ──────────────────────────────────────────
 
-    > mosquitto -v
+    > cd "C:\Program Files\mosquitto"
+    > .\mosquitto.exe -v
 
   Leave this terminal running.
 
