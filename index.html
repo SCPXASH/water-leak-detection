@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Water Flow Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+padding:20px;
+}
+
+h2{
+text-align:center;
+}
+
+canvas{
+background:white;
+padding:20px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Water Flow Dashboard</h2>
+
+<canvas id="chart"></canvas>
+
+<script>
+
+let chart
+
+async function loadData(){
+
+const res = await fetch("/data?nocache=" + Date.now())
+
+const data = await res.json()
+
+const flow = data.map(x => x.flow_rate_lpm)
+
+const labels = data.map(x => x.timestamp)
+
+if(!chart){
+
+chart = new Chart(document.getElementById("chart"),{
+
+type:"line",
+
+data:{
+labels:labels,
+datasets:[{
+label:"Flow Rate (LPM)",
+data:flow,
+borderColor:"blue",
+backgroundColor:"rgba(0,0,255,0.1)",
+fill:true,
+tension:0.3
+}]
+},
+
+options:{
+responsive:true,
+animation:false,
+scales:{
+y:{beginAtZero:true}
+}
+}
+
+})
+
+}
+
+else{
+
+chart.data.labels = labels
+chart.data.datasets[0].data = flow
+chart.update()
+
+}
+
+}
+
+loadData()
+
+setInterval(loadData,3000)
+
+</script>
+
+</body>
+
+</html>
